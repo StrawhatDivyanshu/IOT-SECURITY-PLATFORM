@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Security Dashboard</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            overflow-x: hidden; /* Prevent horizontal scroll when sidebar is visible */
+        }
+
+        h1, h2, h3 {
+            margin: 0;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: white;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            position: fixed;
+            left: -250px; /* Initially hidden */
+            top: 0;
+            transition: left 0.3s ease;
+            z-index: 1000; /* Ensure it is above other content */
+        }
+
+        .sidebar h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            display: block;
+        }
+
+        .sidebar ul {
+            padding-left: 0;
+        }
+
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            font-size: 18px;
+            display: block;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            padding: 20px;
+            box-sizing: border-box;
+            margin-left: 20px; /* Space for the button */
+            transition: margin-left 0.3s ease;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .top-bar h1 {
+            margin-left: 80px; 
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-info span {
+            margin-right: 10px;
+        }
+
+        .user-info button {
+            padding: 8px 12px;
+            border: none;
+            background-color: #db0c0c;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .device-status {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .device-status .card {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            width: 30%;
+            text-align: center;
+        }
+
+        .device-status .card h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .alerts {
+            background-color: #e74c3c;
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .alerts li {
+            margin-bottom: 10px;
+        }
+
+        .chart-placeholder {
+            background-color: #ecf0f1;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* Toggle Button Styles */
+        .toggle-btn {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 1001; /* Ensure it is above the sidebar */
+        }
+    </style>
+</head>
+<body>
+    <!-- Toggle Button -->
+    <button class="toggle-btn" onclick="toggleSidebar()">☰ Menu</button>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <h2><br><br>CipherNet</h2>
+        <ul>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Device Management</a></li>
+            <li><a href="#">Security Policies</a></li>
+            <li><a href="#">User Management</a></li>
+            <li><a href="#">Reports</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <h1>Dashboard Overview</h1>
+            <div class="user-info">
+                <span>Welcome, User</span>
+                <button>Logout</button>
+            </div>
+        </div>
+
+        <!-- Device Status Section -->
+        <div class="section">
+            <h2>Device Status</h2>
+            <div class="device-status">
+                <div class="card">
+                    <h3>Online Devices</h3>
+                    <p>24</p>
+                </div>
+                <div class="card">
+                    <h3>Offline Devices</h3>
+                    <p>5</p>
+                </div>
+                <div class="card">
+                    <h3>Issues Detected</h3>
+                    <p>3</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts Section -->
+        <div class="section">
+            <h2>Security Alerts</h2>
+            <ul class="alerts">
+                <li>Unauthorized access attempt detected on Device 7.</li>
+                <li>Firmware update available for Device 12.</li>
+                <li>Network anomaly detected in Sector 3.</li>
+            </ul>
+        </div>
+
+        <!-- Data Visualization Section -->
+        <div class="section">
+            <h2>Data Visualization</h2>
+            <div class="chart-placeholder">
+                <!-- Placeholder for charts or graphs -->
+                <p>Chart will be displayed here</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Sidebar Toggle -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            if (sidebar.style.left === '-250px') {
+                sidebar.style.left = '0';
+                mainContent.style.marginLeft = '270px'; // Adjust margin to accommodate sidebar
+            } else {
+                sidebar.style.left = '-250px';
+                mainContent.style.marginLeft = '20px'; // Reset margin
+            }
+        }
+    </script>
+</body>
+</html>
